@@ -16,6 +16,8 @@ function reset() {
   playerTwoCurrentScore.textContent = 0;
   playerOneScore.textContent = 0;
   playerTwoScore.textContent = 0;
+  playerOnePanel.classList.remove('winner');
+  playerTwoPanel.classList.remove('winner');
 }
 
 function rollDice() {
@@ -30,16 +32,27 @@ function rollDice() {
 reset();
 function handlePlayerOne(number) {
   if (number == 1) {
-    playerOneCurrentScore.textContent = 0;
     changePlayer();
   } else {
     playerOneCurrentScore.textContent =
       number + Number(playerOneCurrentScore.textContent);
   }
 }
+function checkforGameOver() {
+  const audio = document.querySelector('audio');
+  console.log(audio);
+
+  if (playerOneScore.textContent >= 100) {
+    playerOnePanel.classList.add('winner');
+    audio.play();
+  }
+  if (playerTwoScore.textContent >= 100) {
+    playerTwoPanel.classList.add('winner');
+    audio.play();
+  }
+}
 function handlePlayerTwo(number) {
   if (number == 1) {
-    playerTwoCurrentScore.textContent = 0;
     changePlayer();
   } else {
     playerTwoCurrentScore.textContent =
@@ -51,21 +64,25 @@ function changePlayer() {
     playerOneScore.textContent =
       Number(playerOneScore.textContent) +
       Number(playerOneCurrentScore.textContent);
+    playerOneCurrentScore.textContent = 0;
     activePlayer = 'playerTwo';
     playerOnePanel.classList.remove('active');
     playerTwoPanel.classList.add('active');
+    checkforGameOver();
   } else {
     playerTwoScore.textContent =
       Number(playerTwoScore.textContent) +
       Number(playerTwoCurrentScore.textContent);
+    playerTwoCurrentScore.textContent = 0;
     activePlayer = 'playerOne';
 
     playerOnePanel.classList.add('active');
     playerTwoPanel.classList.remove('active');
+    checkforGameOver();
   }
 }
-console.log(typeof playerOneScore.textContent);
+
 rollButton.addEventListener('click', rollDice);
-console.log(holdButton);
+
 holdButton.addEventListener('click', changePlayer);
 document.querySelector('.btn-new').addEventListener('click', reset);
