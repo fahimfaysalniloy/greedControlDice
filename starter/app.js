@@ -32,6 +32,7 @@ function rollDice() {
 reset();
 function handlePlayerOne(number) {
   if (number == 1) {
+    playerOneCurrentScore.textContent = 0;
     changePlayer();
   } else {
     playerOneCurrentScore.textContent =
@@ -44,15 +45,18 @@ function checkforGameOver() {
 
   if (playerOneScore.textContent >= 100) {
     playerOnePanel.classList.add('winner');
+    document.querySelector('#name-0').textContent = 'WINNER';
     audio.play();
   }
   if (playerTwoScore.textContent >= 100) {
     playerTwoPanel.classList.add('winner');
+    document.querySelector('#name-1').textContent = 'WINNER';
     audio.play();
   }
 }
 function handlePlayerTwo(number) {
   if (number == 1) {
+    playerTwoCurrentScore.textContent = 0;
     changePlayer();
   } else {
     playerTwoCurrentScore.textContent =
